@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -30,6 +31,10 @@ public class UserService {
 
     public User findUserById(Long id) throws Exception {
         return this.repository.findUserById(id).orElseThrow(() -> new Exception("Usuario não encontrado!"));
+    }
+
+    public Optional<User> findUserByDocument(String document) {
+        return this.repository.findUserByDocument(document);
     }
 
     public void saveUser(User user){
