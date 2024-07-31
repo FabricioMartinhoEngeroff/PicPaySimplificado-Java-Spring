@@ -1,7 +1,7 @@
 package com.DvFabricio.PicPaySimplificado.controllers;
 
 import com.DvFabricio.PicPaySimplificado.domain.transaction.Transaction;
-import com.DvFabricio.PicPaySimplificado.dtos.TransactionaDTO;
+import com.DvFabricio.PicPaySimplificado.dtos.TransactionDTO;
 import com.DvFabricio.PicPaySimplificado.services.TransactionalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,8 +19,12 @@ public class TransactionController {
     private TransactionalService transactionalService;
 
     @PostMapping
-    public ResponseEntity<Transaction> createTransactional(@RequestBody TransactionaDTO transactionaDto) throws Exception {
-        Transaction newTransactional = this.transactionalService.createTransactional(transactionaDto);
-        return new ResponseEntity<>(newTransactional, HttpStatus.CREATED);
+    public ResponseEntity<?> createTransactional(@RequestBody TransactionDTO transactionaDto) {
+        try {
+            Transaction newTransactional = transactionalService.createTransactional(transactionaDto);
+            return new ResponseEntity<>(newTransactional, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 }
